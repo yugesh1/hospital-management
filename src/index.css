@@ -1,0 +1,55 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: "Nunito Sans", sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;
+}
+
+body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+body::-webkit-scrollbar-thumb {
+  background: #cfcfcf;
+}
+
+.grid-cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.card-container {
+  background: #fefeff;
+  border: 1px solid #ebebeb;
+  border-radius: 10px;
+  padding: 10px 15px;
+}
+
+@layer components {
+  .primary-button {
+    @apply bg-primaryColor text-white py-3 px-4 rounded-md font-bold shadow-lg shadow-red-100 hover:shadow-none transition-shadow duration-300;
+  }
+  .outline-button {
+    @apply border-2 bg-secondaryColor border-primaryColor text-primaryColor py-3 px-6 rounded-md text-sm font-bold hover:bg-primaryColor hover:text-white transition-colors duration-300;
+  }
+  .form-field {
+    @apply w-full h-full py-3 px-2 border-gray-300 border-2 rounded-lg outline-none focus:border-primaryColor transition;
+  }
+  .date-field {
+    @apply w-full h-full py-3 px-2 pl-8 rounded-lg outline-none focus:border-primaryColor transition;
+  }
+}

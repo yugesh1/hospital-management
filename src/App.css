@@ -1,0 +1,114 @@
+
+.App {
+  text-align: center;
+  -webkit-appearance: none;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
+.form-label {
+  color: #9C9C9C;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+/* .form-field {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  padding: 20px 15px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  transition: 0.3s;
+  outline: none;
+} */
+/* .date-form-field {
+  width: 100%;
+  border: none;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  text-transform: uppercase;
+  padding: 20px 15px;
+  padding-left: 30px;
+  transition: 0.3s;
+  outline: none;
+} */
+
+/* .form-field:focus {
+  border: 2px solid #4988FC;
+} */
+
+
+/* .rounded-button {
+  border-radius: 30px;
+  border: 2px solid #FF7B54;
+  padding: 10px 20px;
+  margin: 5px 0rem;
+  min-width: 120px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: 0.3s;
+  outline: none;
+}
+
+.outline-button {
+  border: 2px solid #FF7B54;
+  color: #FF7B54;
+  background-color: transparent;
+  transition: 0.3s;
+  outline: none;
+}
+
+.outline-button:hover {
+  background-color: #FF7B54;
+  color: white;
+}
+
+.primary{
+  background-color: #FF7B54;
+  color: #fff;
+  background-color: #FF7B54;
+}
+.primary:hover{
+  background-color: #e46b46;
+} */
+.MuiDataGrid-columnHeaderTitle { font-weight: bold !important; overflow: visible !important; }
+
+/* .MuiTableCell-root.MuiTableCell-body.MuiTableCell-sizeMedium.Cell-cell.Cell-brightRightBorder.css-156ill3-MuiTableCell-root {
+  display: none !important;
+} */
