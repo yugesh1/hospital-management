@@ -42,12 +42,13 @@ const CreateRoom = () => {
   const dispatch = useDispatch();
   const [value, setValue] = React.useState(null);
   const { error, patient, loading } = useSelector((state) => state.patients);
+  const { user } = useSelector((state) => state.user);
   console.log("patient in room", patient);
   useEffect(() => {
     if (!error) {
-      dispatch(getAllPatients());
+      user && dispatch(getAllPatients(user._id));
     }
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const getPatientOptions = () => {
     return patient
@@ -69,7 +70,7 @@ const CreateRoom = () => {
       });
   };
 
-  const submitHandler = (data) => {
+  const submitHandler = async (data) => {
     const obj = {
       admissionDate: data.admissionDate,
       // history: {
@@ -83,7 +84,7 @@ const CreateRoom = () => {
       roomNo: data.roomNo,
       vacancyStatus: "true",
     };
-    dispatch(createRoom(obj));
+    await dispatch(createRoom(obj, user._id));
     history.push("/roomstatus");
   };
   return (
@@ -112,7 +113,6 @@ const CreateRoom = () => {
                   roomNo: "",
                 }}
                 onSubmit={(values, { setSubmitting, resetForm }) => {
-                  console.log({ values });
                   submitHandler(values);
                   resetForm();
                 }}
@@ -131,6 +131,7 @@ const CreateRoom = () => {
                             styles={selectStyle}
                             options={patient.length ? getPatientOptions() : []}
                             name="patientName"
+                            required
                             placeholder="Select Patient"
                             isLoading={false}
                             loadingMessage={() => "Fetching Patient"}
@@ -209,6 +210,7 @@ const CreateRoom = () => {
                                       name="admissionDate"
                                       ref={inputRef}
                                       {...inputProps}
+                                      required
                                     />
                                   </div>
                                 )}
@@ -223,6 +225,7 @@ const CreateRoom = () => {
                               className="form-field"
                               placeholder="Enter Room No."
                               name="roomNo"
+                              required
                             />
                           </div>
                         </div>

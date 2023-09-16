@@ -19,13 +19,16 @@ import { useHistory } from "react-router-dom";
 const AllDoctors = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const { allDoctors } = useSelector((state) => state.allDoctors);
+  const { allDoctors, loading } = useSelector((state) => state.allDoctors);
+  const { user } = useSelector((state) => state.user);
 
-  console.log("doctors list", allDoctors);
+  console.log("doctors list", allDoctors, user);
 
   useEffect(() => {
-    dispatch(getAllDoctors());
-  }, [dispatch]);
+    if (user) {
+      dispatch(getAllDoctors(user._id));
+    }
+  }, [dispatch, user]);
 
   return (
     <div>
@@ -55,78 +58,92 @@ const AllDoctors = () => {
                 />
               </div>
             </div>
-            <div className="grid grid-cols-3 gap-10 pt-10">
-              {allDoctors?.map((doctor) => (
-                <Card
-                  className="mb-3 relative"
-                  style={{
-                    borderRadius: "12px",
-                    border: "1px solid #e6e6e6",
-                    boxShadow: "none",
-                    backgroundColor: "#fff",
-                  }}
-                >
-                  <CardHeader
+            {loading ? (
+              <div>loading...</div>
+            ) : allDoctors && allDoctors.length > 0 ? (
+              <div className="grid grid-cols-3 gap-10 pt-10">
+                {allDoctors?.map((doctor) => (
+                  <Card
+                    className="mb-3 relative"
                     style={{
+                      borderRadius: "12px",
+                      border: "1px solid #e6e6e6",
+                      boxShadow: "none",
                       backgroundColor: "#fff",
-                      borderBottom: "1px solid #e6e6e6",
                     }}
-                    titleTypographyProps={{
-                      fontSize: "16px",
-                      fontWeight: "700",
-                    }}
-                    avatar={
-                      <Avatar
-                        // src={doctor.avatar}
-                        sx={{
-                          background: "#212121",
-                          width: "60px",
-                          height: "60px",
-                        }}
-                        aria-label="doctor Profile"
-                      />
-                    }
-                    title={doctor?.userName}
-                    subheader={
-                      <div>
-                        <div>{doctor?.department}</div>
-                        <div className="flex justify-start items-center gap-1 py-1">
-                          {/* <FiClock className="self-center" size={16} />{" "} */}
-                          {doctor?.userAvailability}
+                  >
+                    <CardHeader
+                      style={{
+                        backgroundColor: "#fff",
+                        borderBottom: "1px solid #e6e6e6",
+                      }}
+                      titleTypographyProps={{
+                        fontSize: "16px",
+                        fontWeight: "700",
+                      }}
+                      avatar={
+                        <Avatar
+                          // src={doctor.avatar}
+                          sx={{
+                            background: "#212121",
+                            width: "60px",
+                            height: "60px",
+                          }}
+                          aria-label="doctor Profile"
+                        />
+                      }
+                      title={doctor?.userName}
+                      subheader={
+                        <div>
+                          <div>{doctor?.department}</div>
+                          <div className="flex justify-start items-center gap-1 py-1">
+                            {/* <FiClock className="self-center" size={16} />{" "} */}
+                            {doctor?.userAvailability}
+                          </div>
                         </div>
-                      </div>
-                    }
-                  />
-                  <CardContent>
-                    <Typography
-                      variant="body2"
-                      sx={{ fontSize: "14px", lineHeight: 1.75 }}
-                    >
-                      {doctor.biography}
-                    </Typography>
-                  </CardContent>
-                  <div className="py-10">
-                    <CardActions className="absolute w-full bottom-0">
-                      <Button
-                        className="primary-button w-full"
-                        text={"View Profile"}
-                        onClick={() =>
-                          history.push(`/doctor/${doctor._id}`, {
-                            data: allDoctors.find(
-                              (item) => item._id === doctor._id
-                            ),
-                          })
-                        }
-                      />
-                      <Button
-                        className="outline-button w-full"
-                        text={"Appointment"}
-                      />
-                    </CardActions>
-                  </div>
-                </Card>
-              ))}
-            </div>
+                      }
+                    />
+                    <CardContent>
+                      <Typography
+                        variant="body2"
+                        sx={{ fontSize: "14px", lineHeight: 1.75 }}
+                      >
+                        {doctor.biography}
+                      </Typography>
+                    </CardContent>
+                    <div className="py-10">
+                      <CardActions className="absolute w-full bottom-0">
+                        <Button
+                          className="primary-button w-full"
+                          text={"View Profile"}
+                          onClick={() =>
+                            history.push(`/doctor/${doctor._id}`, {
+                              data: allDoctors.find(
+                                (item) => item._id === doctor._id
+                              ),
+                            })
+                          }
+                        />
+                        <Button
+                          className="outline-button w-full"
+                          text={"Appointment"}
+                        />
+                      </CardActions>
+                    </div>
+                  </Card>
+                ))}
+              </div>
+            ) : (
+              <h3
+                style={{
+                  textAlign: "center",
+                  fontSize: "20px",
+                  marginBlock: "5px",
+                }}
+              >
+                No data found
+              </h3>
+            )}
           </Box>
         </Layout>
       </div>

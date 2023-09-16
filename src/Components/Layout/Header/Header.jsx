@@ -187,7 +187,6 @@ export const PageHeader = ({ title, searchHidden, back, onClick, value }) => {
                 className="bg-white rounded-xl shadow-xl shadow-orange-50 placeholder:font-bold placeholder-black"
                 placeholder="Search for Patients, Doctors, etc."
                 onKeyDown={(e) => {
-                  console.log("inside onkey down")
                   if (e.code === "Enter") {
                     history.push(`/search?search=${searchValue}`);
                   }

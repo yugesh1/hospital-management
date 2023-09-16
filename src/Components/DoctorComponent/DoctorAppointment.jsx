@@ -50,20 +50,18 @@ const DoctorAppointment = () => {
   const [value, setValue] = React.useState(null);
 
   const { error, patient, loading } = useSelector((state) => state.patients);
+  const { user } = useSelector((state) => state.user);
 
   const { allDoctors } = useSelector((state) => state.allDoctors);
 
-  console.log("doctors list in appointment", allDoctors);
-
-  console.log("patient in appointment", patient);
   const [patientName, setPatientName] = useState([]);
   const [patientId, setPatientId] = useState("");
   const [patientValue, setPatientValue] = useState("");
 
   useEffect(() => {
     if (!error) {
-      dispatch(getAllPatients());
-      dispatch(getAllDoctors());
+      user && dispatch(getAllPatients(user._id));
+      user && dispatch(getAllDoctors(user._id));
     }
   }, [dispatch]);
 
@@ -74,7 +72,7 @@ const DoctorAppointment = () => {
     formState: { errors },
   } = useForm();
 
-  const submitHandler = (data) => {
+  const submitHandler = async (data) => {
     const obj = {
       appointmentName: data.appointmentName,
       appointmentWith: [
@@ -91,7 +89,7 @@ const DoctorAppointment = () => {
       ],
     };
     console.log("inside submitr", obj);
-    dispatch(createAppointment(obj));
+    await dispatch(createAppointment(obj, user._id));
     history.goBack();
   };
 
@@ -174,7 +172,6 @@ const DoctorAppointment = () => {
                   visitFor: "",
                 }}
                 onSubmit={async (values, { setSubmitting, resetForm }) => {
-                  console.log({ values });
                   await submitHandler(values);
                   resetForm();
                 }}

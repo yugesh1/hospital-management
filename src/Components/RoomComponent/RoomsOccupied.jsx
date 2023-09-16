@@ -14,18 +14,19 @@ const RoomsOccupied = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { rooms } = useSelector((state) => state.allrooms);
+  const { rooms, loading } = useSelector((state) => state.allrooms);
+  const { user } = useSelector((state) => state.user);
 
   console.log("rooms occupied", rooms);
 
   useEffect(() => {
-    dispatch(getAllRooms());
-  }, [dispatch]);
+    user && dispatch(getAllRooms(user._id));
+  }, [dispatch, user]);
 
   const deleteRoomFn = React.useCallback(
     (id) => async () => {
       await dispatch(deleteRoom(id));
-      dispatch(getAllRooms());
+      dispatch(getAllRooms(user._id));
     },
     [dispatch]
   );
@@ -130,7 +131,7 @@ const RoomsOccupied = () => {
               />
             </div>
           </div>
-          {rooms.length > 0 && (
+          {rooms.length > 0 ? (
             <>
               <DataGrid
                 sx={{
@@ -157,6 +158,16 @@ const RoomsOccupied = () => {
                 checkboxSelection
               />
             </>
+          ) : (
+            <h3
+              style={{
+                textAlign: "center",
+                fontSize: "20px",
+                marginBlock: "5px",
+              }}
+            >
+              No data found
+            </h3>
           )}
         </Box>
       </Layout>

@@ -18,6 +18,7 @@ import Button from "../../Components/Button";
 import moment from "moment";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 import { Alert, Snackbar } from "@mui/material";
+import * as Yup from "yup";
 
 export const PatientForm = ({ data: patientData }) => {
   const history = useHistory();
@@ -26,6 +27,7 @@ export const PatientForm = ({ data: patientData }) => {
 
   const { id } = useParams();
   const [open, setOpen] = React.useState(false);
+  const { user } = useSelector((state) => state.user);
   // const [patientData, setPatientData] = useState(data);
   const dispatch = useDispatch();
   // const { onePatient, loading } = useSelector((state) => state.patients);
@@ -38,7 +40,6 @@ export const PatientForm = ({ data: patientData }) => {
     setOpen(false);
   };
 
-  console.log({ patientData });
   const isEditMode = location?.pathname?.includes("updatepatient");
   const steps = ["Patient Detail", "Home Address", "Guardian Detail"];
   const { formId, formField } = patientFormField;
@@ -69,6 +70,14 @@ export const PatientForm = ({ data: patientData }) => {
       patientBodyTemperature,
     },
   } = patientFormField;
+
+  const addPatientSchema = Yup.object().shape({
+    patientName: Yup.string()
+      .min(2, "Too Short!")
+      .max(30, "Too Long!")
+      .required("Required"),
+    patientEmail: Yup.string().email("Invalid email").required("Required"),
+  });
 
   const intialValues = {
     [patientName.name]: patientData?.patientName || "",
@@ -102,13 +111,15 @@ export const PatientForm = ({ data: patientData }) => {
     [patientBodyTemperature.name]: patientData?.respirationRate || "",
   };
 
-  function _renderStepContent(step, setFieldValue, values) {
+  function _renderStepContent(step, setFieldValue, values, touched, errors) {
     switch (step) {
       case 0:
         return (
           <PatientDetailForm
             setFieldValue={setFieldValue}
             values={values}
+            touched={touched}
+            errors={errors}
             formField={formField}
           />
         );
@@ -183,7 +194,7 @@ export const PatientForm = ({ data: patientData }) => {
       dispatch(updatePatient({ ...newData, patientUHID: patientData._id }));
       setOpen(true);
     } else {
-      dispatch(createNewPatient(newData));
+      dispatch(createNewPatient(newData, user._id));
       setOpen(true);
     }
     setOpen(true);
@@ -202,10 +213,27 @@ export const PatientForm = ({ data: patientData }) => {
         >
           <StepperComponent steps={steps} activeStep={activeStep}>
             <div className="pb-4">
-              <Formik initialValues={intialValues} onSubmit={_handleSubmit}>
-                {({ isSubmitting, setFieldValue, values, resetForm }) => (
+              <Formik
+                initialValues={intialValues}
+                validationSchema={addPatientSchema}
+                onSubmit={_handleSubmit}
+              >
+                {({
+                  isSubmitting,
+                  setFieldValue,
+                  values,
+                  resetForm,
+                  touched,
+                  errors,
+                }) => (
                   <Form id={formId}>
-                    {_renderStepContent(activeStep, setFieldValue, values)}
+                    {_renderStepContent(
+                      activeStep,
+                      setFieldValue,
+                      values,
+                      touched,
+                      errors
+                    )}
                     <Box
                       sx={{
                         display: "flex",

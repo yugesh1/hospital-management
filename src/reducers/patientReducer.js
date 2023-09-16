@@ -83,7 +83,6 @@ export const patientReducer = (state = { patient: {} }, action) => {
         loading: true,
       };
     case GET_PATIENTS_SUCCESS:
-      console.log(state, action);
       return {
         ...state,
         loading: false,

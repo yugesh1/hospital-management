@@ -92,8 +92,6 @@ const AllAppointments = () => {
               </thead>
               <tbody>
                 {appointments.map((data) => {
-                  console.log(data, "appicancana");
-
                   return (
                     <tr>
                       <th scope="row">1</th>

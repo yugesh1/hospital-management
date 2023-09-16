@@ -54,10 +54,10 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (user) {
-      dispatch(getAllAppointments());
+      dispatch(getAllAppointments(user._id));
+      dispatch(getAllPatients(user._id));
+      dispatch(getAllRooms(user._id));
     }
-    dispatch(getAllPatients());
-    dispatch(getAllRooms());
   }, [dispatch, user]);
 
   const columns = [
@@ -168,7 +168,13 @@ const Dashboard = (props) => {
                   />
                   <div>
                     <div className="card-dashboard-title">Patients</div>
-                    <div className="card-dashboard-heading">
+                    <div
+                      className="card-dashboard-heading"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        history.push("/patientList");
+                      }}
+                    >
                       {patient?.length}
                     </div>
                   </div>
@@ -184,7 +190,11 @@ const Dashboard = (props) => {
                   />
                   <div>
                     <div className="card-dashboard-title">Appointments</div>
-                    <div className="card-dashboard-heading">
+                    <div
+                      className="card-dashboard-heading"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => history.push("/appointments")}
+                    >
                       {appointments?.length}
                     </div>
                   </div>
@@ -200,7 +210,11 @@ const Dashboard = (props) => {
                   />
                   <div>
                     <div className="card-dashboard-title">Operations</div>
-                    <div className="card-dashboard-heading">
+                    <div
+                      className="card-dashboard-heading"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => history.push("/roomStatus")}
+                    >
                       {rooms?.length}
                     </div>
                   </div>
@@ -216,7 +230,11 @@ const Dashboard = (props) => {
                   />
                   <div>
                     <div className="card-dashboard-title">Rooms Occupied</div>
-                    <div className="card-dashboard-heading">
+                    <div
+                      className="card-dashboard-heading"
+                      style={{ cursor: "pointer" }}
+                      onClick={() => history.push("/roomStatus")}
+                    >
                       {rooms?.length}
                     </div>
                   </div>

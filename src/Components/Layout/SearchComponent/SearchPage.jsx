@@ -19,15 +19,18 @@ const SearchPage = () => {
   const dispatch = useDispatch();
   const { patient } = useSelector((state) => state.patients);
   const { allDoctors } = useSelector((state) => state.allDoctors);
+  const { user } = useSelector((state) => state.user);
   const [isLoading, setIsLoading] = useState(false);
   const [searchResult, setSearchResult] = React.useState([]);
   console.log("patient in search", patient);
   console.log("doctos in search", allDoctors);
 
   useEffect(() => {
-    dispatch(getAllPatients());
-    dispatch(getAllDoctors());
-  }, [dispatch]);
+    if (user) {
+      dispatch(getAllPatients(user._id));
+      dispatch(getAllDoctors(user._id));
+    }
+  }, [dispatch, user]);
 
   const columns = () => [
     {

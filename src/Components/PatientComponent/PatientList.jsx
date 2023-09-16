@@ -19,18 +19,19 @@ const PatientList = () => {
   const { patient, onePatient, loading } = useSelector(
     (state) => state.patients
   );
+  const { user } = useSelector((state) => state.user);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   useEffect(() => {
-    dispatch(getAllPatients());
-  }, [dispatch]);
+    user && dispatch(getAllPatients(user._id));
+  }, [dispatch, user]);
 
   const deleteUser = React.useCallback(
     (id) => async () => {
       await dispatch(deletePatient(id));
-      dispatch(getAllPatients());
+      dispatch(getAllPatients(user._id));
     },
     [dispatch]
   );
@@ -204,7 +205,9 @@ const PatientList = () => {
             </div>
             <AddPatientModal open={open} onClose={handleClose} />
           </div>
-          {!loading && patient && patient.length > 0 && (
+          {loading ? (
+            <div>loading...</div>
+          ) : patient && patient.length > 0 ? (
             <>
               <DataGrid
                 sx={{
@@ -231,6 +234,16 @@ const PatientList = () => {
                 checkboxSelection
               />
             </>
+          ) : (
+            <h3
+              style={{
+                textAlign: "center",
+                fontSize: "20px",
+                marginBlock: "5px",
+              }}
+            >
+              No data found
+            </h3>
           )}
         </Box>
       </Layout>

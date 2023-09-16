@@ -35,6 +35,7 @@ export default function PatientGuardianDetailForm(props) {
               className="form-field"
               placeholder="Guardian Mobile No."
               name={patientGuardianMobile.name}
+              required
             />
           </div>
         </div>
@@ -45,6 +46,7 @@ export default function PatientGuardianDetailForm(props) {
               className="form-field"
               placeholder="Guardian Address1"
               name={patientGuardianAddress1.name}
+              required
             />
           </div>
         </div>
@@ -65,6 +67,7 @@ export default function PatientGuardianDetailForm(props) {
               className="form-field"
               placeholder="Enter City"
               name={patientGuardianCity.name}
+              required
             />
           </div>
         </div>
@@ -75,6 +78,7 @@ export default function PatientGuardianDetailForm(props) {
               className="form-field"
               placeholder="State"
               name={patientGuardianState.name}
+              required
             />
           </div>
         </div>
@@ -85,6 +89,7 @@ export default function PatientGuardianDetailForm(props) {
               className="form-field"
               placeholder="Enter Zipcode"
               name={patientGuardianZipcode.name}
+              required
             />
           </div>
         </div>

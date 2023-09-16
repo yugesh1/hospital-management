@@ -41,6 +41,7 @@ const selectStyle = {
 const DischargePatient = () => {
   const history = useHistory();
   const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.user);
   const [open, setOpen] = useState(false);
 
   const handleClose = (event, reason) => {
@@ -53,17 +54,17 @@ const DischargePatient = () => {
   const [value, setValue] = React.useState(null);
   const { error, patient, loading } = useSelector((state) => state.patients);
   const { allDoctors } = useSelector((state) => state.allDoctors);
-  console.log("doctors list in admisssion", allDoctors);
-  console.log("patient in admisssion", patient);
+
   useEffect(() => {
     if (!error) {
-      dispatch(getAllPatients());
-      dispatch(getAllDoctors());
+      user && dispatch(getAllPatients(user._id));
+      user && dispatch(getAllDoctors(user._id));
     }
   }, [dispatch]);
   const getPatientOptions = () => {
     return patient
-      ?.map((item) => {
+      ?.filter((patient) => patient.patientAdmissionStatus.includes("Admitted"))
+      .map((item) => {
         return {
           value: item.patientName,
           label: item.patientName,
@@ -148,7 +149,7 @@ const DischargePatient = () => {
                   );
                   setOpen(true);
                   resetForm();
-                  history.push("/patientlist");
+                  history.push("/admittedPatient");
                 }}
               >
                 {({ isSubmitting, setFieldValue, values }) => (

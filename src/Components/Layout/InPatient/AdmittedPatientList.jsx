@@ -13,12 +13,13 @@ import Layout from "../LayoutComponent/Layout";
 export const AdmittedPatientList = () => {
   const [patientFilter, setPatientFilter] = useState("Admitted");
   const history = useHistory();
+  const { user } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { patient, loading } = useSelector((state) => state.patients);
   console.log("patient admission list", patient);
   useEffect(() => {
-    dispatch(getAllPatients());
-  }, [dispatch]);
+    user && dispatch(getAllPatients(user._id));
+  }, [dispatch, user]);
 
   const columns = () => [
     {

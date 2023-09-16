@@ -1,16 +1,17 @@
 import { Box } from "@mui/system";
-import { Field } from "formik";
+import { ErrorMessage, Field } from "formik";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import React from "react";
 import { FiCalendar } from "react-icons/fi";
-import { Paper } from "@mui/material";
+import { Paper, TextField } from "@mui/material";
 import { format } from "date-fns";
 import moment from "moment";
 
 export default function PatientDetailForm(props) {
   // const [value, setValue] = React.useState(props.values.patientDOB);
+
   const {
     formField: {
       patientName,
@@ -42,11 +43,24 @@ export default function PatientDetailForm(props) {
           <div className="form-label">Patient Name</div>
           <div className="flex relative">
             <Field
-              className="form-field"
               placeholder="Enter Name"
               name={patientName.name}
+              required
+              as={TextField}
+              variant="outlined"
+              className={`form-field ${
+                props.touched.patientName && props.errors.patientName
+                  ? "error"
+                  : ""
+              }`}
             />
           </div>
+          <ErrorMessage
+            name={patientName.name}
+            component="div"
+            style={{ marginTop: "5px" }}
+            className="error"
+          />
         </div>
         <div className="w-full h-full">
           <div className="form-label">Mobile Number</div>
@@ -55,6 +69,7 @@ export default function PatientDetailForm(props) {
               className="form-field"
               placeholder="Mobile Number"
               name={patientMobile.name}
+              required
             />
           </div>
         </div>
@@ -91,7 +106,6 @@ export default function PatientDetailForm(props) {
                   // value={value}
                   inputFormat="dd/MM/yyyy"
                   onChange={(newValue) => {
-                    console.log("newValue", newValue);
                     props.setFieldValue(patientDOB.name, newValue);
                   }}
                   renderInput={({ inputRef, inputProps, InputProps }) => (
@@ -109,6 +123,7 @@ export default function PatientDetailForm(props) {
                             "dd/MM/yyyy"
                           )
                         }
+                        required
                       />
                     </div>
                   )}
@@ -120,11 +135,24 @@ export default function PatientDetailForm(props) {
         <div className="w-full h-full">
           <div className="form-label">Patient Gender</div>
           <div className="flex relative">
-            <Field
+            {/* <Field
               className="form-field"
               placeholder="Select Gender"
               name={patientGender.name}
-            />
+              required
+            /> */}
+            <Field
+              as="select"
+              className="form-field"
+              name={patientGender.name}
+              required
+            >
+              <option value="" disabled>
+                Select Gender
+              </option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </Field>
           </div>
         </div>
         <div className="w-full h-full">
@@ -134,6 +162,7 @@ export default function PatientDetailForm(props) {
               className="form-field"
               placeholder="Enter Email"
               name={patientEmail.name}
+              required
             />
           </div>
         </div>

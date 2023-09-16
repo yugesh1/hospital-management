@@ -13,11 +13,11 @@ import {
 import ENDPOINT from "../constants/endpoint";
 import { toast } from "react-toastify";
 
-export const getAllDoctors = () => async (dispatch) => {
+export const getAllDoctors = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_ALL_DOCTORS_REQUEST });
 
-    const { data } = await axios.get(ENDPOINT.DOCTORS.ALL);
+    const { data } = await axios.get(`${ENDPOINT.DOCTORS.ALL}?id=${id}`);
 
     console.log("get all doctors", data);
 

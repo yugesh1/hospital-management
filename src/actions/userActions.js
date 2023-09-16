@@ -108,7 +108,7 @@ export const clearErrors = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });
 };
 
-export const createNewUser = (userData) => async (dispatch) => {
+export const createNewUser = (userData, id) => async (dispatch) => {
   try {
     dispatch({ type: CREATE_USER_REQUEST });
 
@@ -116,7 +116,11 @@ export const createNewUser = (userData) => async (dispatch) => {
 
     console.log("userData", userData);
 
-    const { data } = await axios.post(ENDPOINT.USER.CREATE, userData, config);
+    const { data } = await axios.post(
+      `${ENDPOINT.USER.CREATE}?id=${id}`,
+      userData,
+      config
+    );
 
     dispatch({
       type: CREATE_USER_SUCCESS,

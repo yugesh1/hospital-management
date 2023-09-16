@@ -23,6 +23,7 @@ export default function PatientAddressForm(props) {
               className="form-field"
               placeholder="Patient Address1"
               name={patientAddress1.name}
+              required
             />
           </div>
         </div>
@@ -43,6 +44,7 @@ export default function PatientAddressForm(props) {
               className="form-field"
               placeholder="Enter City"
               name={patientCity.name}
+              required
             />
           </div>
         </div>
@@ -53,6 +55,7 @@ export default function PatientAddressForm(props) {
               className="form-field"
               placeholder="Enter State"
               name={patientState.name}
+              required
             />
           </div>
         </div>
@@ -63,6 +66,7 @@ export default function PatientAddressForm(props) {
               className="form-field"
               placeholder="Enter Zipcode"
               name={patientZipcode.name}
+              required
             />
           </div>
         </div>
@@ -73,6 +77,7 @@ export default function PatientAddressForm(props) {
               className="form-field"
               placeholder="Enter Country"
               name={patientCountry.name}
+              required
             />
           </div>
         </div>

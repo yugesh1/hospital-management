@@ -10,14 +10,14 @@ import {
 import ENDPOINT from "../constants/endpoint";
 import { toast } from "react-toastify";
 
-export const createAppointment = (appointmentData) => async (dispatch) => {
+export const createAppointment = (appointmentData, id) => async (dispatch) => {
   try {
     dispatch({ type: CREATE_APPOINTMENT_REQUEST });
 
     const config = { headers: { "Content-Type": "application/json" } };
     console.log(appointmentData, "appointment");
     const { data } = await axios.post(
-      ENDPOINT.APPOINTMENT.CREATE,
+      `${ENDPOINT.APPOINTMENT.CREATE}?id=${id}`,
       appointmentData,
       config
     );
@@ -40,11 +40,11 @@ export const createAppointment = (appointmentData) => async (dispatch) => {
   }
 };
 
-export const getAllAppointments = () => async (dispatch) => {
+export const getAllAppointments = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_ALL_APPOINTMENTS_REQUEST });
 
-    const { data } = await axios.get(ENDPOINT.APPOINTMENT.ALL);
+    const { data } = await axios.get(`${ENDPOINT.APPOINTMENT.ALL}?id=${id}`);
 
     dispatch({
       type: GET_ALL_APPOINTMENTS_SUCCESS,

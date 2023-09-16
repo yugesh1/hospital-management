@@ -39,6 +39,8 @@ const TodaysAppointment = () => {
   const { appointments, loading } = useSelector(
     (state) => state.allappointments
   );
+  const { user } = useSelector((state) => state.user);
+
   const doctors = appointments
     ?.filter((appointment, index, self) => {
       return (
@@ -86,10 +88,6 @@ const TodaysAppointment = () => {
           }))
       : [];
 
-  console.log({ eventsForCalendar });
-
-  console.log("daoijsaofkj", doctors);
-  console.log("safjhajkfh", appointments);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
@@ -103,10 +101,10 @@ const TodaysAppointment = () => {
   const handleChange = () => {
     console.log("this block code executed");
   };
-  console.log({ datee: date });
+
   useEffect(() => {
-    dispatch(getAllAppointments());
-  }, [dispatch]);
+    user && dispatch(getAllAppointments(user._id));
+  }, [dispatch, user]);
 
   // const allappointments = ()
 
@@ -165,7 +163,15 @@ const TodaysAppointment = () => {
               />
             </div>
           ) : (
-            <div>No records found</div>
+            <h3
+              style={{
+                textAlign: "center",
+                fontSize: "20px",
+                marginBlock: "5px",
+              }}
+            >
+              No records found
+            </h3>
           )}
           {/* {appointments.length ? (
             <AppointmentCalendar appointments={appointments} />

@@ -25,7 +25,6 @@ import Logo from "../../../images/Datamines-logo.svg";
 const MaterialDrawer = ({ isOpen, setIsOpen }) => {
   const dispatch = useDispatch();
 
-  console.log("kuch bhi likhdiya");
   const { loading, user } = useSelector((state) => state.user);
 
   console.log(user);
@@ -69,7 +68,7 @@ const MaterialDrawer = ({ isOpen, setIsOpen }) => {
 
   return (
     <>
-      {!loading && user?.userRole === "doctor" && (
+      {!loading && user?.userRole === "admin" && (
         <Drawer
           variant="permanent"
           sx={{

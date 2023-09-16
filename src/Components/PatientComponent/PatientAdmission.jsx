@@ -42,6 +42,7 @@ const PatientAdmission = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [open, setOpen] = React.useState(false);
+  const { user } = useSelector((state) => state.user);
 
   const handleClose = (event, reason) => {
     if (reason === "clickaway") {
@@ -58,8 +59,8 @@ const PatientAdmission = () => {
   console.log("patient in admisssion", patient);
   useEffect(() => {
     if (!error) {
-      dispatch(getAllPatients());
-      dispatch(getAllDoctors());
+      user && dispatch(getAllPatients(user._id));
+      user && dispatch(getAllDoctors(user._id));
     }
   }, [dispatch]);
 
@@ -135,7 +136,6 @@ const PatientAdmission = () => {
                   doctorId: "",
                 }}
                 onSubmit={async (values, { setSubmitting, resetForm }) => {
-                  console.log({ values });
                   await dispatch(
                     updatePatient({
                       ...values,
@@ -152,7 +152,7 @@ const PatientAdmission = () => {
                   );
                   setOpen(true);
                   resetForm();
-                  history.push("/patientlist");
+                  history.push("/admittedPatient");
                 }}
               >
                 {({ isSubmitting, setFieldValue, values }) => (

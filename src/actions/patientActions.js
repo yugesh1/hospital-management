@@ -18,7 +18,7 @@ import {
 } from "../constants/patientConstants";
 import axios from "axios";
 
-export const createNewPatient = (patientData) => async (dispatch) => {
+export const createNewPatient = (patientData, id) => async (dispatch) => {
   try {
     dispatch({ type: CREATE_PATIENT_REQUEST });
 
@@ -27,7 +27,7 @@ export const createNewPatient = (patientData) => async (dispatch) => {
     console.log("patientData", patientData);
 
     const { data } = await axios.post(
-      ENDPOINT.PATIENTS.CREATE,
+      `${ENDPOINT.PATIENTS.CREATE}?id=${id}`,
       patientData,
       config
     );
@@ -51,11 +51,11 @@ export const createNewPatient = (patientData) => async (dispatch) => {
   }
 };
 
-export const getAllPatients = () => async (dispatch) => {
+export const getAllPatients = (id) => async (dispatch) => {
   try {
     dispatch({ type: GET_ALL_PATIENTS_REQUEST });
 
-    const { data } = await axios.get(ENDPOINT.PATIENTS.ALL);
+    const { data } = await axios.get(`${ENDPOINT.PATIENTS.ALL}?id=${id}`);
 
     console.log("get all patients", data);
 

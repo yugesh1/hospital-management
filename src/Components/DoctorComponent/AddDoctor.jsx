@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
-import { Field, Form, Formik } from "formik";
+import { Box, FormHelperText, TextField } from "@mui/material";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
@@ -9,11 +9,13 @@ import { PageHeader } from "../Layout/Header/Header";
 import Layout from "../Layout/LayoutComponent/Layout";
 import { searchDoctor, updateDoctor } from "../../actions/doctorActions";
 import NotFound from "../Pages/NotFound";
+import * as Yup from "yup";
 
 const AddDoctor = ({ data: doctor }) => {
   const history = useHistory();
   const { id } = useParams();
   const [isEditMode, setIsEditMode] = useState(doctor ? true : false);
+  const { user } = useSelector((state) => state.user);
 
   const dispatch = useDispatch();
 
@@ -34,7 +36,7 @@ const AddDoctor = ({ data: doctor }) => {
 
       history.push("/alldoctors");
     } else {
-      await dispatch(createNewUser(obj));
+      await dispatch(createNewUser(obj, user._id));
       history.goBack();
     }
   };
@@ -53,7 +55,15 @@ const AddDoctor = ({ data: doctor }) => {
   // if (!loading && isEditMode && doctor && Object.keys(doctor).length === 0) {
   //   return <NotFound />;
   // }
-  console.log(doctor, isEditMode);
+
+  const addDoctorSchema = Yup.object().shape({
+    userName: Yup.string()
+      .min(2, "Too Short!")
+      .max(30, "Too Long!")
+      .required("Required"),
+    email: Yup.string().email("Invalid email").required("Required"),
+  });
+
   return (
     <>
       <div className="relative">
@@ -84,13 +94,13 @@ const AddDoctor = ({ data: doctor }) => {
                 zipCode: doctor?.address.split("###")[5] || "",
                 biography: doctor?.biography || "",
               }}
+              validationSchema={addDoctorSchema}
               onSubmit={(values, { setSubmitting, resetForm }) => {
-                console.log({ values });
                 submitHandler(values);
                 resetForm();
               }}
             >
-              {() => (
+              {({ errors, touched }) => (
                 <Form className="flex flex-col space-y-5">
                   <div className="text-lg font-bold pb-2 border-b border-gray-200">
                     {!isEditMode ? "Add Doctor" : "Update Doctor"}
@@ -100,21 +110,43 @@ const AddDoctor = ({ data: doctor }) => {
                       <div className="form-label">Doctor Name</div>
                       <div className="flex relative">
                         <Field
-                          className="form-field"
                           placeholder="Enter Doctor Name"
                           name="userName"
+                          required
+                          as={TextField}
+                          variant="outlined"
+                          className={`form-field ${
+                            touched.userName && errors.userName ? "error" : ""
+                          }`}
                         />
                       </div>
+                      <ErrorMessage
+                        name="userName"
+                        component="div"
+                        style={{ marginTop: "5px" }}
+                        className="error"
+                      />
                     </div>
                     <div className="w-full">
                       <div className="form-label">Email Address</div>
                       <div className="flex relative">
                         <Field
-                          className="form-field"
                           placeholder="Enter Email Address"
                           name="email"
+                          type="email"
+                          required
+                          as={TextField}
+                          className={`form-field ${
+                            touched.email && errors.email ? "error" : ""
+                          }`}
                         />
                       </div>
+                      <ErrorMessage
+                        name="email"
+                        style={{ marginTop: "5px" }}
+                        component="div"
+                        className="error"
+                      />
                     </div>
                     <div className="w-full">
                       <div className="form-label">Phone Number</div>
@@ -123,6 +155,7 @@ const AddDoctor = ({ data: doctor }) => {
                           className="form-field"
                           placeholder="Enter Phone Number"
                           name="phoneNo"
+                          required
                         />
                       </div>
                     </div>
@@ -138,6 +171,7 @@ const AddDoctor = ({ data: doctor }) => {
                           className="form-field"
                           placeholder="Enter Doctor Name"
                           name="address1"
+                          required
                         />
                       </div>
                     </div>
@@ -158,6 +192,7 @@ const AddDoctor = ({ data: doctor }) => {
                           className="form-field"
                           placeholder="Enter City"
                           name="city"
+                          required
                         />
                       </div>
                     </div>
@@ -168,6 +203,7 @@ const AddDoctor = ({ data: doctor }) => {
                           className="form-field"
                           placeholder="Enter State"
                           name="state"
+                          required
                         />
                       </div>
                     </div>
@@ -178,6 +214,7 @@ const AddDoctor = ({ data: doctor }) => {
                           className="form-field"
                           placeholder="Enter Zipcode"
                           name="zipCode"
+                          required
                         />
                       </div>
                     </div>
@@ -188,6 +225,7 @@ const AddDoctor = ({ data: doctor }) => {
                           className="form-field"
                           placeholder="Enter Country"
                           name="country"
+                          required
                         />
                       </div>
                     </div>
