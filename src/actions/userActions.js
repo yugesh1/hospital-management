@@ -38,7 +38,6 @@ export const login = (email, password) => async (dispatch) => {
     // console.log(data, "data111");
     // console.log(data.token, "token");
     localStorage.setItem("token", data.token);
-    Cookies.set("token", data.token, { expires: 1 }); // Expires in 1 day
 
     dispatch({ type: LOGIN_SUCCESS, payload: data.user });
     toast.success("Logged In", {
@@ -57,7 +56,9 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: LOAD_USER_REQUEST });
 
     const { data } = await axios.get(ENDPOINT.USER.PROFILE, {
-      withCredentials: true,
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
     });
 
     console.log(data, "load user data current");
@@ -93,6 +94,7 @@ export const logout = () => async (dispatch) => {
     await axios.get(ENDPOINT.USER.LOGOUT);
 
     dispatch({ type: LOGOUT_USER_SUCCESS });
+    localStorage.removeItem("token");
     toast.success("Logged Out", {
       position: toast.POSITION.TOP_CENTER,
     });
