@@ -1,7 +1,7 @@
-const BASE_URL =
-  "https://hospital-management-server-c05d2984134e.herokuapp.com";
+// const BASE_URL =
+//   "https://hospital-management-server-c05d2984134e.herokuapp.com";
 
-// const BASE_URL = "http://localhost:5000";
+const BASE_URL = "http://localhost:5000";
 
 const API_BASE_URL = `${BASE_URL}/api/v1`;
 

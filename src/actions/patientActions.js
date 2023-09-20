@@ -22,7 +22,13 @@ export const createNewPatient = (patientData, id) => async (dispatch) => {
   try {
     dispatch({ type: CREATE_PATIENT_REQUEST });
 
-    const config = { headers: { "Content-Type": "application/json" } };
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+
+        Authorization: "Bearer " + localStorage.getItem("token"),
+      },
+    };
 
     console.log("patientData", patientData);
 

@@ -57,6 +57,7 @@ export const loadUser = () => async (dispatch) => {
 
     const { data } = await axios.get(ENDPOINT.USER.PROFILE, {
       headers: {
+        "Content-Type": "application/json",
         Authorization: "Bearer " + localStorage.getItem("token"),
       },
     });
