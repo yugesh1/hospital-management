@@ -149,7 +149,9 @@ const MaterialDrawer = ({ isOpen, setIsOpen }) => {
                   <List key={index} disablePadding>
                     {data.item != null ? (
                       <ListItem
-                        onClick={() => handleClick(data.id)}
+                        onClick={() => {
+                          handleClick(data.id);
+                        }}
                         style={styles.item}
                         button
                         key={data.id}
@@ -161,6 +163,7 @@ const MaterialDrawer = ({ isOpen, setIsOpen }) => {
                           sx={{ fontSize: "14px" }}
                           primary={data.title}
                         />
+                        {console.log(open, "inside data.item", data.item)}
                         {data.item ? (
                           open === data.id ? (
                             <ExpandLess />
@@ -170,7 +173,12 @@ const MaterialDrawer = ({ isOpen, setIsOpen }) => {
                         ) : null}
                       </ListItem>
                     ) : (
-                      <ListItem key={data.id} style={styles.item} button>
+                      <ListItem
+                        key={data.id}
+                        style={styles.item}
+                        button
+                        onClick={() => setOpen("")}
+                      >
                         <ListItemIcon style={styles.icon}>
                           <img src={data.icon} alt={data.title} width={22} />
                         </ListItemIcon>

@@ -166,7 +166,7 @@ const DoctorAppointment = () => {
                   appointmentName: "",
                   doctorName: "",
                   appointmentOn: "",
-                  anticipatedTime: new Date().getTime(),
+                  anticipatedTime: new Date().toISOString(),
                   patientName: "",
                   patientUHID: "",
                   visitFor: "",
@@ -189,6 +189,7 @@ const DoctorAppointment = () => {
                             className="form-field"
                             placeholder="Enter Appointment Name"
                             name="appointmentName"
+                            required
                           />
                         </div>
                       </div>
@@ -205,6 +206,7 @@ const DoctorAppointment = () => {
                             options={patient.length ? getDoctorOptions() : []}
                             name="doctorName"
                             placeholder="Select Doctor"
+                            required
                             className="w-full"
                             isLoading={false}
                             loadingMessage={() => "Fetching Doctor"}
@@ -272,8 +274,10 @@ const DoctorAppointment = () => {
                                     <Field
                                       className="py-3 px-3 w-full outline-none"
                                       name="appointmentOn"
+                                      required
                                       ref={inputRef}
                                       {...inputProps}
+                                      readOnly
                                     />
                                   </div>
                                 )}
@@ -311,6 +315,9 @@ const DoctorAppointment = () => {
                                 }}
                                 // defaultValue={values.anticipatedTime}
                                 label="Enter Anticipated time"
+                                defaultValue={
+                                  values.appointmentOn && values.anticipatedTime
+                                }
                                 value={
                                   values.appointmentOn && values.anticipatedTime
                                 }
@@ -337,6 +344,7 @@ const DoctorAppointment = () => {
                                       className="py-3 px-3 w-full outline-none"
                                       name="anticipatedTime"
                                       ref={inputRef}
+                                      required
                                       {...inputProps}
                                     />
                                   </div>
@@ -367,6 +375,7 @@ const DoctorAppointment = () => {
                             styles={selectStyle}
                             options={patient.length ? getPatientOptions() : []}
                             name="patientName"
+                            required
                             placeholder="Select Patient"
                             isLoading={false}
                             loadingMessage={() => "Fetching Patient"}

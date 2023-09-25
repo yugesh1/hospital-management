@@ -166,6 +166,7 @@ const DischargePatient = () => {
                             styles={selectStyle}
                             options={patient.length ? getPatientOptions() : []}
                             name="patientName"
+                            required
                             placeholder="Select Patient"
                             isLoading={false}
                             loadingMessage={() => "Fetching Patient"}
@@ -262,6 +263,8 @@ const DischargePatient = () => {
                                       name="patientAppointment"
                                       ref={inputRef}
                                       {...inputProps}
+                                      readOnly
+                                      required
                                     />
                                   </div>
                                 )}
@@ -299,6 +302,7 @@ const DischargePatient = () => {
                             name="doctorName"
                             placeholder="Select Doctor"
                             className="w-full"
+                            required
                             isLoading={false}
                             loadingMessage={() => "Fetching Doctor"}
                             noOptionsMessage={() => "This doctor is not Exist"}

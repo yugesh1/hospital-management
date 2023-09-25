@@ -59,10 +59,33 @@ const TodaysAppointment = () => {
     resourceTitle: doctorName,
   }));
 
+  const doctorForAppointment = [
+    {
+      resourceId: user._id,
+      resourceTitle: user.userName,
+    },
+  ];
+
+  const formattedAppointments = [];
+
+  if (appointments && user.userRole === "doctor") {
+    const filteredAppointments =
+      appointments?.length > 0 &&
+      appointments.filter(
+        (item) => item.doctorsAttending[0].doctorId === user._id
+      );
+
+    filteredAppointments && formattedAppointments.push(...filteredAppointments);
+  } else {
+    appointments && formattedAppointments.push(...appointments);
+  }
+
   const eventsForCalendar =
-    appointments?.length > 0
-      ? appointments
-          .filter((item) => item.doctorsAttending[0].doctorId)
+    formattedAppointments.length > 0
+      ? formattedAppointments
+          .filter((item) => {
+            return item.doctorsAttending[0].doctorId;
+          })
           .map((item) => ({
             id: item._id,
             title: item.appointmentName,
@@ -103,7 +126,13 @@ const TodaysAppointment = () => {
   };
 
   useEffect(() => {
-    user && dispatch(getAllAppointments(user._id));
+    if (user) {
+      if (user.userRole === "doctor") {
+        dispatch(getAllAppointments(user.userId));
+      } else {
+        dispatch(getAllAppointments(user._id));
+      }
+    }
   }, [dispatch, user]);
 
   // const allappointments = ()
@@ -137,7 +166,11 @@ const TodaysAppointment = () => {
             <div>
               <Calendar
                 toolbar={CustomToolbar}
-                style={{ height: 700, width: 1200, overflow: "auto" }}
+                style={{
+                  height: 700,
+                  width: `${user.userRole === "admin" ? "1150px" : ""}`,
+                  overflow: "auto",
+                }}
                 components={{
                   event: EventComponent({ eventsForCalendar, handleChange }),
                   toolbar: CalenderToolbar({
@@ -154,11 +187,15 @@ const TodaysAppointment = () => {
                 events={eventsForCalendar}
                 localizer={momentLocalizer(moment)}
                 resourceIdAccessor="resourceId"
-                resources={doctorsForAppointment}
+                resources={
+                  user.userRole === "doctor"
+                    ? doctorForAppointment
+                    : doctorsForAppointment
+                }
                 resourceTitleAccessor="resourceTitle"
                 onNavigate={handleNavigation}
                 step={60}
-                views={["day", "month", "week", "agenda"]}
+                views={["week", "month", "day", "agenda"]}
                 date={date}
               />
             </div>
@@ -221,21 +258,27 @@ const CalenderToolbar = ({ handleChange, newDate, date }) => {
             <button
               type="button"
               className="px-3 py-2 border-2 border-primaryColor rounded-lg hover:bg-primaryColor hover:text-white text-primaryColor font-bold"
-              onClick={() => this.handleNamvigate(this, "TODAY")}
+              onClick={() => {
+                this.handleNamvigate(this, "TODAY");
+              }}
             >
               Today
             </button>
             <button
               type="button"
               className="px-3 py-2 border-2 border-primaryColor rounded-lg hover:bg-primaryColor hover:text-white text-primaryColor font-bold"
-              onClick={() => this.handleNamvigate(this, "PREV")}
+              onClick={() => {
+                this.handleNamvigate(this, "PREV");
+              }}
             >
               Prev
             </button>
             <button
               type="button"
               className="px-3 py-2 border-2 border-primaryColor rounded-lg hover:bg-primaryColor hover:text-white text-primaryColor font-bold"
-              onClick={() => this.handleNamvigate(this, "NEXT")}
+              onClick={() => {
+                this.handleNamvigate(this, "NEXT");
+              }}
             >
               Next
             </button>
@@ -281,6 +324,7 @@ const CalenderToolbar = ({ handleChange, newDate, date }) => {
                         placeholder="Search Google Maps"
                         ref={inputRef}
                         {...inputProps}
+                        readOnly
                       />
                     </div>
                   )}
@@ -295,7 +339,7 @@ const CalenderToolbar = ({ handleChange, newDate, date }) => {
                 console.log(this.view, this);
                 this.handleDayChange(e, this.view);
               }}
-              defaultValue={"day"}
+              defaultValue={this.props.view}
             >
               <option className="optionbar" value="day">
                 Day

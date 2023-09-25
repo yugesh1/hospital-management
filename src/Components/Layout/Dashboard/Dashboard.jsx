@@ -54,7 +54,11 @@ const Dashboard = (props) => {
 
   useEffect(() => {
     if (user) {
-      dispatch(getAllAppointments(user._id));
+      if (user.userRole === "doctor") {
+        dispatch(getAllAppointments(user.userId));
+      } else {
+        dispatch(getAllAppointments(user._id));
+      }
       dispatch(getAllPatients(user._id));
       dispatch(getAllRooms(user._id));
     }
@@ -112,7 +116,20 @@ const Dashboard = (props) => {
     },
   ];
 
-  const rows = appointments?.map(
+  const formattedAppointments = [];
+  if (appointments && user.userRole === "doctor") {
+    const filteredAppointments =
+      appointments?.length > 0 &&
+      appointments.filter(
+        (item) => item.doctorsAttending[0].doctorId === user._id
+      );
+
+    filteredAppointments && formattedAppointments.push(...filteredAppointments);
+  } else {
+    appointments && formattedAppointments.push(...appointments);
+  }
+
+  const rows = formattedAppointments?.map(
     ({ appointmentWith, doctorsAttending, anticipatedTime, _id }) => {
       return {
         id: _id,
@@ -195,7 +212,7 @@ const Dashboard = (props) => {
                       style={{ cursor: "pointer" }}
                       onClick={() => history.push("/appointments")}
                     >
-                      {appointments?.length}
+                      {formattedAppointments?.length}
                     </div>
                   </div>
                 </div>

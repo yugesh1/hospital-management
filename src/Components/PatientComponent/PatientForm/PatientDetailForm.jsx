@@ -124,6 +124,7 @@ export default function PatientDetailForm(props) {
                           )
                         }
                         required
+                        readOnly
                       />
                     </div>
                   )}

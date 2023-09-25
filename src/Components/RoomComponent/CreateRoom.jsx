@@ -211,6 +211,7 @@ const CreateRoom = () => {
                                       ref={inputRef}
                                       {...inputProps}
                                       required
+                                      readOnly
                                     />
                                   </div>
                                 )}

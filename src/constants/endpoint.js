@@ -19,7 +19,7 @@ const ENDPOINT = {
   },
   INVENTORY: {
     CREATE: `${API_BASE_URL}/create/new`,
-    ALL: `${API_BASE_URL}/getall/inventory`,
+    ALL: `${API_BASE_URL}/inventory/all`,
   },
   PATIENTS: {
     CREATE: `${API_BASE_URL}/patient/new`,

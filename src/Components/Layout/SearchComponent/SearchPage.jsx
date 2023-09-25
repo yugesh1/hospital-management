@@ -93,6 +93,7 @@ const SearchPage = () => {
       setSearchResult(res);
       setIsLoading(false);
     }
+    setIsLoading(false);
   }, [patient, allDoctors, searchQuery]);
 
   return (
@@ -147,6 +148,7 @@ const SearchPage = () => {
               {isLoading ? "Loading" : " No search result found"}
             </div>
           )}
+          {console.log(isLoading, "isloading")}
         </Box>
       </Layout>
     </div>

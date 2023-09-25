@@ -171,6 +171,7 @@ const PatientAdmission = () => {
                             name="patientName"
                             placeholder="Select Patient"
                             isLoading={false}
+                            required
                             loadingMessage={() => "Fetching Patient"}
                             noOptionsMessage={() => "This patient is not Exist"}
                             onChange={(selectedOption) => {
@@ -263,8 +264,10 @@ const PatientAdmission = () => {
                                     <Field
                                       className="py-3 px-3 w-full outline-none"
                                       name="patientAppointment"
+                                      required
                                       ref={inputRef}
                                       {...inputProps}
+                                      readOnly
                                     />
                                   </div>
                                 )}
@@ -302,6 +305,7 @@ const PatientAdmission = () => {
                             name="doctorName"
                             placeholder="Select Doctor"
                             className="w-full"
+                            required
                             isLoading={false}
                             loadingMessage={() => "Fetching Doctor"}
                             noOptionsMessage={() => "This doctor is not Exist"}

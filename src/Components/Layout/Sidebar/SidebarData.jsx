@@ -68,12 +68,12 @@ export const SidebarData = [
     ],
     // link: "/inventorymanagement",
   },
-  {
-    id: 9,
-    icon: ReportsIcon,
-    title: "Billing",
-    link: "/outpatientbilling",
-  },
+  // {
+  //   id: 9,
+  //   icon: ReportsIcon,
+  //   title: "Billing",
+  //   link: "/outpatientbilling",
+  // },
   {
     id: 5,
     icon: ReportsIcon,
