@@ -124,10 +124,10 @@ const AllDoctors = () => {
                             })
                           }
                         />
-                        <Button
+                        {/* <Button
                           className="outline-button w-full"
                           text={"Appointment"}
-                        />
+                        /> */}
                       </CardActions>
                     </div>
                   </Card>
